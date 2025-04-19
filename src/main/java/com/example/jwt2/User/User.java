@@ -35,6 +35,7 @@ public class User implements UserDetails {
     @Column(name = "lastname") // Corregir el nombre de la columna
     private String lastname;
 
+    
     private String country;
 
     @Enumerated(EnumType.STRING)

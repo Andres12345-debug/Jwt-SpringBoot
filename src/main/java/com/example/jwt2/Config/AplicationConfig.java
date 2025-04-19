@@ -19,10 +19,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class AplicationConfig {
 
     private final UserRepository userRepository;
+
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception
+    {
         return config.getAuthenticationManager();
     }
+
     @Bean
     public AuthenticationProvider authenticationProvider()
     {
@@ -40,7 +43,6 @@ public class AplicationConfig {
     @Bean
     public UserDetailsService userDetailService() {
         return username -> userRepository.findByUsername(username)
-                .orElseThrow(()-> new UsernameNotFoundException("User not fournd"));
+        .orElseThrow(()-> new UsernameNotFoundException("User not fournd"));
     }
-
 }
