@@ -9,33 +9,41 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.management.relation.Role;
 import java.util.Collection;
 import java.util.List;
-
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames =  {"username"})})
-public class User  implements UserDetails {
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})}) // Cambiar el nombre de la tabla a "users" para evitar conflictos con la palabra reservada "user"
+public class User implements UserDetails {
     @Id
-    @GeneratedValue
-            Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Usar IDENTITY para PostgreSQL
+    private Integer id;
+
     @Column(nullable = false)
-    String username;
-    String password;
-    String firtsname;
-    String lasname;
-    String country;
+    private String username;
+
+    @Column(nullable = false) // Asegurarse de que la contraseña no sea nula
+    private String password;
+
+    @Column(name = "firstname") // Corregir el nombre de la columna
+    private String firtsname;
+
+    @Column(name = "lastname") // Corregir el nombre de la columna
+    private String lastname;
+
+    private String country;
+
     @Enumerated(EnumType.STRING)
-    Rol rol;
+    private Rol rol;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(rol.name()));}
+        return List.of(new SimpleGrantedAuthority(rol.name()));
+    }
 
     @Override
     public boolean isAccountNonExpired() {
